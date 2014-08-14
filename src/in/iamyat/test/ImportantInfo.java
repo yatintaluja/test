@@ -15,12 +15,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class ImportantInfo extends Fragment {
+	// view for Important Status
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.info_important, container,
 				false);
 
+		// TextView for different functions
 		TextView internetConnection = (TextView) rootView
 				.findViewById(R.id.internetConnection);
 		internetConnection.setText(getInternetConnection());
@@ -35,6 +37,7 @@ public class ImportantInfo extends Fragment {
 
 	}
 
+	// check Internet connection
 	private String getInternetConnection() {
 		if (isOnline()) {
 			return "Your internet connection is working.";
@@ -42,11 +45,13 @@ public class ImportantInfo extends Fragment {
 			return "Your internet coonection is not working.";
 		}
 	}
-
+	
+	//Get Battery Status
 	private String getBatteryStatus() {
 		return "Your Battery Level is: " + getMyBatteryLevel() + "%";
 	}
 
+	//Check Online Connection
 	private boolean isOnline() {
 		ConnectivityManager connection = connection();
 
@@ -59,7 +64,8 @@ public class ImportantInfo extends Fragment {
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		return connection;
 	}
-
+	
+	//get battery level
 	private int getMyBatteryLevel() {
 		Intent batteryIntent = getActivity().getApplicationContext()
 				.registerReceiver(null,
@@ -67,32 +73,42 @@ public class ImportantInfo extends Fragment {
 		return batteryIntent.getIntExtra("level", -1);
 	}
 
-	private String getInfo(){
-		 ConnectivityManager connection = connection();
-		 NetworkInfo mWifi = connection.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		 final LocationManager manager = (LocationManager) getActivity().getSystemService( Context.LOCATION_SERVICE );
-		 
-		 if(mWifi.isConnected() && !manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-			 int per = getWifiStrength(getActivity());
-			 return "Your Wifi signal strength is "+ per;
-		 }
-		 else if(manager.isProviderEnabled(LocationManager.GPS_PROVIDER) && !mWifi.isConnected()){
-			 
-			 
-			
-			 return "Your GPS signal Strength is ";
-			 
-		 }else if(!mWifi.isConnected() && !manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-			 return "Your Wifi and GPS is off.";
-		 }
-		 else if(mWifi.isConnected() && manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){	
-			 int per = getWifiStrength(getActivity());
-			 return "Your Wifi signal strength is "+ per;
-		 }
-		 
-		 return null;
+	//GPS and Wifi
+	private String getInfo() {
+		ConnectivityManager connection = connection();
+		NetworkInfo mWifi = connection
+				.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		final LocationManager manager = location();
+
+		if (mWifi.isConnected()
+				&& !manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			int per = getWifiStrength(getActivity());
+			return "Your Wifi signal strength is " + per;
+		} else if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+				&& !mWifi.isConnected()) {
+			return "GPS is ON";
+
+		} else if (!mWifi.isConnected()
+				&& !manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			return "Your Wifi and GPS is off.";
+		} else if (mWifi.isConnected()
+				&& manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			int per = getWifiStrength(getActivity());
+			return "Your Wifi signal strength is " + per
+					+ " and GPS is also ON";
+		}
+
+		return null;
 	}
 
+	//Location Function
+	private LocationManager location() {
+		final LocationManager manager = (LocationManager) getActivity()
+				.getSystemService(Context.LOCATION_SERVICE);
+		return manager;
+	}
+
+	//Wifi Strength
 	private static int getWifiStrength(Context context) {
 		try {
 			WifiManager wifiManager = (WifiManager) context
@@ -105,6 +121,4 @@ public class ImportantInfo extends Fragment {
 			return 0;
 		}
 	}
-	
-	
 }

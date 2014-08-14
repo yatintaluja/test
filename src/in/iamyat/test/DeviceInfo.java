@@ -14,6 +14,7 @@ public class DeviceInfo extends Fragment {
 
 	String dataType;
 
+	// View for Device Info
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -44,11 +45,24 @@ public class DeviceInfo extends Fragment {
 
 	}
 
+	// get number
 	private String getNumber(TelephonyManager mn) {
-		String number = "Your mobile Number is: " + mn.getLine1Number();
-		return number;
+		String number = "0000000000";
+
+		try {
+			number = mn.getLine1Number();
+		} catch (NullPointerException ex) {
+
+		}
+
+		if (number.equals("")) {
+			number = mn.getSubscriberId();
+		}
+
+		return "Your mobile Number is: " + number;
 	}
 
+	// get Provider
 	private String getProvider(TelephonyManager mn) {
 		String provider = "Your network Provider info: "
 				+ mn.getNetworkOperatorName() + '/' + mn.getNetworkOperator()
@@ -56,6 +70,7 @@ public class DeviceInfo extends Fragment {
 		return provider;
 	}
 
+	// get Mobile Network Type
 	private String getDataType() {
 
 		TelephonyManager mn = connection();
@@ -63,64 +78,66 @@ public class DeviceInfo extends Fragment {
 		int data = mn.getNetworkType();
 
 		switch (data) {
-		case 7:
+		case TelephonyManager.NETWORK_TYPE_1xRTT:
 			dataType = "Your Mobile Data Network is 1xRTT";
 			break;
-		case 4:
+		case TelephonyManager.NETWORK_TYPE_CDMA:
 			dataType = "Your Mobile Data Network is CDMA";
 			break;
-		case 2:
+		case TelephonyManager.NETWORK_TYPE_EDGE:
 			dataType = "Your Mobile Data Network is EDGE";
 			break;
-		case 14:
+		case TelephonyManager.NETWORK_TYPE_EHRPD:
 			dataType = "Your Mobile Data Network is eHRPD";
 			break;
-		case 5:
+		case TelephonyManager.NETWORK_TYPE_EVDO_0:
 			dataType = "Your Mobile Data Network is EVDO rev. 0";
 			break;
-		case 6:
+		case TelephonyManager.NETWORK_TYPE_EVDO_A:
 			dataType = "Your Mobile Data Network is EVDO rev. A";
 			break;
-		case 12:
+		case TelephonyManager.NETWORK_TYPE_EVDO_B:
 			dataType = "Your Mobile Data Network is EVDO rev. B";
 			break;
-		case 1:
+		case TelephonyManager.NETWORK_TYPE_GPRS:
 			dataType = "Your Mobile Data Network is GPRS";
 			break;
-		case 8:
+		case TelephonyManager.NETWORK_TYPE_HSDPA:
 			dataType = "Your Mobile Data Network is HSDPA";
 			break;
-		case 10:
+		case TelephonyManager.NETWORK_TYPE_HSPA:
 			dataType = "Your Mobile Data Network is HSPA";
 			break;
-		case 15:
-			dataType = "Your Mobile Data Network isHSPA+";
+		case TelephonyManager.NETWORK_TYPE_HSPAP:
+			dataType = "Your Mobile Data Network is HSPA+";
 			break;
-		case 9:
+		case TelephonyManager.NETWORK_TYPE_HSUPA:
 			dataType = "Your Mobile Data Network is HSUPA";
 			break;
-		case 11:
+		case TelephonyManager.NETWORK_TYPE_IDEN:
 			dataType = "Your Mobile Data Network is iDen";
 			break;
-		case 13:
+		case TelephonyManager.NETWORK_TYPE_LTE:
 			dataType = "Your Mobile Data Network is LTE";
 			break;
-		case 3:
+		case TelephonyManager.NETWORK_TYPE_UMTS:
 			dataType = "Your Mobile Data Network is UMTS";
 			break;
-		case 0:
-			dataType = "Your Mobile Data Network is Unknown";
+		case TelephonyManager.NETWORK_TYPE_UNKNOWN:
+			dataType = "Your Mobile Data Network is unknown";
 			break;
 		}
 		return dataType;
 	}
 
+	// make connection
 	private TelephonyManager connection() {
 		TelephonyManager mn = (TelephonyManager) getActivity()
 				.getSystemService(Context.TELEPHONY_SERVICE);
 		return mn;
 	}
 
+	// get device name
 	private String getDeviceName() {
 		String manufacturer = Build.MANUFACTURER;
 		String model = Build.MODEL;

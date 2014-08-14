@@ -88,7 +88,7 @@ public class MainActivity extends FragmentActivity implements
 			}
 			return null;
 		}
-
+		//get count of fragment
 		@Override
 		public int getCount() {
 			return 2;

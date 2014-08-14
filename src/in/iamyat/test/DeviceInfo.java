@@ -49,15 +49,7 @@ public class DeviceInfo extends Fragment {
 	private String getNumber(TelephonyManager mn) {
 		String number = "0000000000";
 
-		try {
-			number = mn.getLine1Number();
-		} catch (NullPointerException ex) {
-
-		}
-
-		if (number.equals("")) {
-			number = mn.getSubscriberId();
-		}
+		number = mn.getLine1Number();
 
 		return "Your mobile Number is: " + number;
 	}

@@ -30,7 +30,7 @@ public class ImportantInfo extends Fragment {
 		TextView battery = (TextView) rootView.findViewById(R.id.battery);
 		battery.setText(getBatteryStatus());
 
-		TextView wifi = (TextView) rootView.findViewById(R.id.wifingps);
+		TextView wifi = (TextView) rootView.findViewById(R.id.wifi);
 		wifi.setText(getInfo());
 
 		return rootView;
@@ -45,13 +45,13 @@ public class ImportantInfo extends Fragment {
 			return "Your internet coonection is not working.";
 		}
 	}
-	
-	//Get Battery Status
+
+	// Get Battery Status
 	private String getBatteryStatus() {
 		return "Your Battery Level is: " + getMyBatteryLevel() + "%";
 	}
 
-	//Check Online Connection
+	// Check Online Connection
 	private boolean isOnline() {
 		ConnectivityManager connection = connection();
 
@@ -64,8 +64,8 @@ public class ImportantInfo extends Fragment {
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		return connection;
 	}
-	
-	//get battery level
+
+	// get battery level
 	private int getMyBatteryLevel() {
 		Intent batteryIntent = getActivity().getApplicationContext()
 				.registerReceiver(null,
@@ -73,7 +73,7 @@ public class ImportantInfo extends Fragment {
 		return batteryIntent.getIntExtra("level", -1);
 	}
 
-	//GPS and Wifi
+	// GPS and Wifi
 	private String getInfo() {
 		ConnectivityManager connection = connection();
 		NetworkInfo mWifi = connection
@@ -86,7 +86,8 @@ public class ImportantInfo extends Fragment {
 			return "Your Wifi signal strength is " + per;
 		} else if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 				&& !mWifi.isConnected()) {
-			return "GPS is ON";
+			return "GPS is ON and strength is"
+					+ manager.getGpsStatus(null).getMaxSatellites();
 
 		} else if (!mWifi.isConnected()
 				&& !manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -95,20 +96,21 @@ public class ImportantInfo extends Fragment {
 				&& manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			int per = getWifiStrength(getActivity());
 			return "Your Wifi signal strength is " + per
-					+ " and GPS is also ON";
+					+ ", GPS is also ON and strength is "
+					+ manager.getGpsStatus(null).getMaxSatellites();
 		}
 
 		return null;
 	}
 
-	//Location Function
+	// Location Function
 	private LocationManager location() {
 		final LocationManager manager = (LocationManager) getActivity()
 				.getSystemService(Context.LOCATION_SERVICE);
 		return manager;
 	}
 
-	//Wifi Strength
+	// Wifi Strength
 	private static int getWifiStrength(Context context) {
 		try {
 			WifiManager wifiManager = (WifiManager) context

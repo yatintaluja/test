@@ -2,4 +2,37 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
+    <TextView
+        android:id="@+id/internetConnection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="126dp"
+        android:text="internetConnection"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/battery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/internetConnection"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="43dp"
+        android:text="battery"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/wifingps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/battery"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="wifingps"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
 </RelativeLayout>
